@@ -1,0 +1,13 @@
+RewriteEngine On
+
+# Internally rewrite the base URL to compare-rankings.php
+RewriteRule ^$ compare-rankings.php [L]
+
+# Redirect requests that have .php extension
+RewriteCond %{THE_REQUEST} \s/+(.*?/)?(?:index)?(.*?)\.php[\s?/] [NC]
+RewriteRule ^ /%1%2 [R=302,L,NE]
+
+# Internally forward requests without .php to the corresponding .php file
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(.*?)/?$ $1.php [L]
